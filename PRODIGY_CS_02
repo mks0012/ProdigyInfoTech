@@ -1,0 +1,60 @@
+from PIL import Image
+
+def encrypt_image(image_path):
+    # Open the image
+    img = Image.open(image_path)
+    width, height = img.size
+
+    # Iterate through each pixel
+    for y in range(height):
+        for x in range(width):
+            # Get the pixel value at position (x, y)
+            pixel = img.getpixel((x, y))
+
+            # Example encryption: swap red and blue values
+            r, g, b = pixel
+            encrypted_pixel = (b, g, r)
+
+            # Set the encrypted pixel value at position (x, y)
+            img.putpixel((x, y), encrypted_pixel)
+
+    # Save the encrypted image
+    img.save("encrypted_image.png")
+    print("Image encrypted successfully!")
+
+def decrypt_image(image_path):
+    # Open the encrypted image
+    encrypted_img = Image.open(image_path)
+    width, height = encrypted_img.size
+
+    # Iterate through each pixel
+    for y in range(height):
+        for x in range(width):
+            # Get the pixel value at position (x, y)
+            encrypted_pixel = encrypted_img.getpixel((x, y))
+
+            # Example decryption: swap red and blue values again
+            b, g, r = encrypted_pixel
+            decrypted_pixel = (r, g, b)
+
+            # Set the decrypted pixel value at position (x, y)
+            encrypted_img.putpixel((x, y), decrypted_pixel)
+
+    # Save the decrypted image
+    encrypted_img.save("decrypted_image.png")
+    print("Image decrypted successfully!")
+
+def main():
+    choice = input("Enter 'e' to encrypt an image or 'd' to decrypt an image: ").lower()
+
+    if choice == 'e':
+        image_path = input("Enter the path to the image you want to encrypt: ")
+        encrypt_image(image_path)
+    elif choice == 'd':
+        image_path = input("Enter the path to the image you want to decrypt: ")
+        decrypt_image(image_path)
+    else:
+        print("Invalid choice. Please enter 'e' for encryption or 'd' for decryption.")
+
+if __name__ == "__main__":
+    main()
